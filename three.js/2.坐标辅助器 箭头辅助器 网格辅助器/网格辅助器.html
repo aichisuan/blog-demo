@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as Three from 'https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js';
+
+      const scene = new Three.Scene();
+
+      // 创建 BoxGeometry -> Mesh
+      const geometry = new Three.BoxGeometry(100, 100, 100);
+      const material = new Three.MeshLambertMaterial({ color: new Three.Color('Coral') });
+      const cube = new Three.Mesh(geometry, material);
+      cube.position.set(0, 0, 0);
+      scene.add(cube);
+
+      // 设置光源
+      const light = new Three.PointLight(0xffffff, 10000);
+      light.position.set(80, 80, 80);
+      scene.add(light);
+
+      // 设置相机
+      const camera = new Three.PerspectiveCamera(
+        90,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        10000
+      );
+      camera.position.set(200, 200, 200);
+      camera.lookAt(0, 0, 0);
+
+      // 箭头辅助器
+      // 创建一个箭头辅助器
+      // 创建一个网格辅助器
+      const size = 1000; // 网格的总宽度和高度
+      const divisions = 10; // 网格的分段数
+      const color1 = 0xff0000; // 主轴线颜色（红色）
+      const color2 = 0x00ff00; // 其他线条颜色（绿色）
+
+      const gridHelper = new Three.GridHelper(size, divisions, color1, color2);
+      scene.add(gridHelper);
+
+      // 创建渲染器
+      const renderer = new Three.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.render(scene, camera);
+      document.body.appendChild(renderer.domElement);
+    </script>
+  </body>
+</html>
